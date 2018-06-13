@@ -11,6 +11,7 @@ const Profile = require("../../models/Profile");
 
 // Validation
 const validatePostInput = require("../../validation/post");
+const validateCommentInput = require("../../validation/comment");
 
 // @route   GET api/posts/test
 // @desc    Tests posts route
@@ -137,7 +138,7 @@ router.post(
 
         // Get remove index
         const removeIndex = post.likes
-          .map(item => item.user.toString)
+          .map(item => item.user.toString())
           .indexOf(req.user.id);
 
         // Splice out of array
@@ -159,7 +160,7 @@ router.post(
   (req, res) => {
     Post.findById(req.params.id)
       .then(post => {
-        const { errors, isValid } = validatePostInput(req.body);
+        const { errors, isValid } = validateCommentInput(req.body);
 
         if (!isValid) {
           //If any errors, send 400 with errors object
@@ -205,7 +206,7 @@ router.delete(
 
         // Get remove index
         const removeIndex = post.comments
-          .map(comment => comment._id.toString)
+          .map(comment => comment._id.toString())
           .indexOf(req.params.comment_id);
         post.comments.splice(removeIndex, 1);
         // Save
